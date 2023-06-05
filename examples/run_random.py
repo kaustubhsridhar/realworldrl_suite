@@ -56,17 +56,19 @@ def run():
 
   policy = random_policy(action_spec=env.action_spec())
 
-  rewards = []
   for _ in range(FLAGS.total_episodes):
+    rewards = []
     timestep = env.reset()
     total_reward = 0.
+    count = 0
     while not timestep.last():
+      count += 1
       action = policy(timestep)
       timestep = env.step(action)
       total_reward += timestep.reward
     rewards.append(total_reward)
-  print('Random policy total reward per episode: {:.2f} +- {:.2f}'.format(
-      np.mean(rewards), np.std(rewards)))
+    print('Random policy total reward per episode of {:.2f} steps: {:.2f} +- {:.2f}'.format(
+      count, np.mean(rewards), np.std(rewards)))
 
 
 def main(argv):
